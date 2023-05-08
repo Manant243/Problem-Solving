@@ -2,6 +2,8 @@ class Solution {
 public:
     int longestSubstring(string s, int k) {
         int n = s.size(), ans = 0;
+        
+        if(n == 0 || k > n) return 0; 
         map <char,int> m;
         
         for(int i = 0; i < n; i++){
