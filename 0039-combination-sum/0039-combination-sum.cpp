@@ -18,7 +18,6 @@ public:
         int n = candidates.size(), sum = 0;
         
         vector <int> current;
-        sort(candidates.begin(), candidates.end());
         func(0, n, target, current, candidates);
         
         return ans;
