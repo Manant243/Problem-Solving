@@ -1,20 +1,23 @@
 class Solution {
 public:
-    set<vector<int>> ans;
+    vector<vector<int>> ans;
     void func(int ind, int sum, int n, int target, vector <int> current, vector <int>& candidates){
         if(sum == target){
-            ans.insert(current); return;
+            ans.push_back(current); return;
         }
         else if(sum > target) return;
         
         if(ind == n) return;
         
-        func(ind+1, sum, n, target, current, candidates);
+        // func(ind+1, sum, n, target, current, candidates);
         
-        sum += candidates[ind];
-        current.push_back(candidates[ind]);
-        func(ind, sum, n, target, current, candidates);
-        func(ind+1, sum, n, target, current, candidates);
+        for(int i = ind; i < n; i++){
+            sum += candidates[i];
+            current.push_back(candidates[i]);
+            func(i, sum, n, target, current, candidates);
+            sum -= candidates[i];
+            current.pop_back();
+        }
     }
     
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
@@ -23,11 +26,7 @@ public:
         vector <int> current;
         func(0, 0, n, target, current, candidates);
         
-        vector<vector<int>> res;
-        for(auto it : ans){
-            res.push_back(it);
-        }
-        
-        return res;
-    }
+        return ans;
+    }   
+    
 };
