@@ -1,21 +1,15 @@
 class Solution {
 public:
     vector<vector<int>> ans;
-    void func(int ind, int sum, int n, int target, vector <int> current, vector <int>& candidates){
-        if(sum == target){
+    void func(int ind, int n, int target, vector <int> current, vector <int>& candidates){
+        if(target == 0){
             ans.push_back(current); return;
         }
-        else if(sum > target) return;
-        
-        if(ind == n) return;
-        
-        // func(ind+1, sum, n, target, current, candidates);
+        if(target < 0) return;
         
         for(int i = ind; i < n; i++){
-            sum += candidates[i];
             current.push_back(candidates[i]);
-            func(i, sum, n, target, current, candidates);
-            sum -= candidates[i];
+            func(i, n, target-candidates[i], current, candidates);
             current.pop_back();
         }
     }
@@ -25,7 +19,7 @@ public:
         
         vector <int> current;
         sort(candidates.begin(), candidates.end());
-        func(0, 0, n, target, current, candidates);
+        func(0, n, target, current, candidates);
         
         return ans;
     }   
