@@ -1,33 +1,22 @@
 class Solution {
 public:
     vector<vector<int>> ans;
-    map <int,int> cnt;
     
-    void func(int n, vector<int>& current){
-        if(current.size() == n){
-            ans.push_back(current); return;
+    void func(int ind, vector<int> nums){
+        if(ind == nums.size()){
+            ans.push_back(nums); return;
         }
         
-        for(auto it : cnt){
-            if(it.second >= 1){
-                cnt[it.first]--;
-                current.push_back(it.first);
-                func(n, current);
-                cnt[it.first]++;
-                current.pop_back();
-            }
+        for(int i = ind; i < nums.size(); i++){
+            if(i != ind && nums[i] == nums[ind]) continue;
+            swap(nums[i], nums[ind]);
+            func(ind+1, nums);
         }
     }
     
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        vector <int> current;
-        
-        for(auto it : nums){
-            cnt[it]++;
-        }
-        
-        int n = nums.size();
-        func(n, current);
+        sort(nums.begin(), nums.end());
+        func(0, nums);
         
         return ans;
     }
