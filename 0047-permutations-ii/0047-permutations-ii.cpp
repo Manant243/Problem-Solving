@@ -3,7 +3,7 @@ public:
     vector<vector<int>> ans;
     map <int,int> cnt;
     
-    void func(int n, vector<int>current){
+    void func(int n, vector<int>& current){
         if(current.size() == n){
             ans.push_back(current); return;
         }
