@@ -14,17 +14,10 @@ public:
             if(ok[it] >= 1){
                 res = true;
             }
+            ok[it]++;
         } 
         
-        bool pos = false;
-        for(auto it : arr[ind]){
-            ok[it]++;
-            if(ok[it] > 1){
-                pos = true;
-            }
-        }
-        
-        if(!res && !pos){
+        if(!res){
             func(ind+1, curr+arr[ind], arr);
         }
         
