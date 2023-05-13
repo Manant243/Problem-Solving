@@ -2,7 +2,7 @@ class Solution {
 public:
     bool func(int ind, int size, int k, vector<int>subsets, vector<int>& nums){
         if(ind == nums.size()) return true;
-        
+        if(nums[ind] > size) return false;
         bool ok = false;
         for(int i = 0; i < k; i++){
             if(nums[ind] + subsets[i] <= size){
