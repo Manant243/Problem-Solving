@@ -2,29 +2,37 @@ class Solution {
 public:
     map <int, vector<int>> ok;
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        int n = arr.size();
+        int n = arr.size(), curr = INT_MAX, pos = 0;
         for(int i = 0; i < n; i++){
-            int curr = abs(arr[i]-x);
-            ok[curr].push_back(arr[i]);
-        }
-        
-        for(auto it : ok){
-            vector<int> s = it.second;
-            sort(s.begin(), s.end());
-            ok[it.first] = s;
+            if(curr > abs(arr[i]-x)){
+                curr = abs(arr[i]-x); pos = i;
+            }
         }
         
         vector <int> ans;
-        bool ok1 = true;
-        for(auto it : ok){
-            for(auto is : it.second){
-                k--;
-                ans.push_back(is);
-                if(k == 0){
-                    ok1 = false; break;
+        ans.push_back(arr[pos]); k--;
+        
+        int left = -1, right = n;
+        if(pos > 0) left = pos-1;
+        if(pos < n-1) right = pos+1;
+        
+        while(true){
+            if(k <= 0) break;
+            if(left >= 0 && right <= n-1){
+                if(abs(arr[right]-x) < abs(arr[left]-x)){
+                    ans.push_back(arr[right]); right++;
+                }
+                else{
+                    ans.push_back(arr[left]); left--;
                 }
             }
-            if(!ok1) break;
+            else if(right <= n-1){
+                ans.push_back(arr[right]); right++;
+            }
+            else if(left >= 0){
+                ans.push_back(arr[left]); left--;
+            }
+            k--;
         }
         
         sort(ans.begin(), ans.end());
