@@ -1,28 +1,28 @@
 class Solution {
 public:
+    
+    int dfs(int ind, int amount, vector<int>&coins, vector<vector<int>>& dp){
+        if(amount == 0) return 0;
+        if(ind == coins.size()) return INT_MAX-1;
+        if(dp[ind][amount] != -1) return dp[ind][amount];
+        
+        int ans = 0;
+        if(amount >= coins[ind]){
+            ans = min(dfs(ind+1, amount, coins, dp), dfs(ind, amount-coins[ind], coins, dp)+1);
+        }
+        else{
+            ans = dfs(ind+1, amount, coins, dp);
+        }
+        
+        return dp[ind][amount] = ans;
+        
+    }
+    
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
-        vector <int> dp(amount+5, 1e8);
+        vector<vector<int>> dp(n+1, vector <int> (amount+1, -1));
+        int ans = dfs(0, amount, coins, dp);
         
-        for(auto it : coins){
-            if(it <= amount){
-                dp[it] = 1;
-            }
-        }
-        
-        dp[0] = 0;
-        sort(coins.begin(), coins.end());
-        for(int i = 1; i <= amount; i++){
-            for(int j = 0; j < n; j++){
-                if(i - coins[j] < 0){
-                    break;
-                }
-                else{
-                    dp[i] = min(dp[i], dp[i-coins[j]]+1);
-                }
-            }
-        }
-        
-        return dp[amount] == 1e8 ? -1 : dp[amount];
+        return ans == INT_MAX-1 ? -1 : ans;
     }
 };
