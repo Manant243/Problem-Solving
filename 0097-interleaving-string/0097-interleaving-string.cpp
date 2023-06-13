@@ -2,7 +2,13 @@ class Solution {
 public:
     
     bool func(int ind, int ind1, int ind2, string& s1, string& s2, string& s3, vector<vector<int>>& dp){
-        if(ind == s3.size() && ind1 == s1.size() && ind2 == s2.size()) return 1;
+        if(ind == s3.size()){
+            if(ind1 == s1.size() && ind2 == s2.size()){
+                return 1;
+            }
+            return 0;
+        }
+        
         if(dp[ind1][ind2] != -1) return dp[ind1][ind2];
         
         bool ok  = false;
