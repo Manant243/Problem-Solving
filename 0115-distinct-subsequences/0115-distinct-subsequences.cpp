@@ -1,33 +1,26 @@
 class Solution
 {
 public:
-    int dp[1001][1001];
-    int solve(string &s, string &t, int i, int j)
-    {
-        if (j == t.length())
-        {
-            return 1;
+    
+    int func(int a, int b, string& s, string& t, vector<vector<int>>& dp){
+        if(b == t.size()) return 1;
+        if(a == s.size()) return 0;
+        if(dp[a][b] != -1) return dp[a][b];
+        
+        int ans = 0;
+        ans += func(a+1, b, s, t, dp);
+        
+        if(s[a] == t[b]){
+            ans += func(a+1, b+1, s, t, dp);
         }
-        if (i == s.length())
-        {
-            return 0;
-        }
-        else if (dp[i][j] != -1)
-        {
-            return dp[i][j];
-        }
-        else if (s[i] == t[j])
-        {
-            return dp[i][j] = solve(s, t, i + 1, j + 1) + solve(s, t, i + 1, j);
-        }
-        else
-        {
-            return dp[i][j] = solve(s, t, i + 1, j);
-        }
+        
+        return dp[a][b] = ans;
     }
-    int numDistinct(string &s, string &t)
-    {
-        memset(dp, -1, sizeof(dp));
-        return solve(s, t, 0, 0);
+    
+    int numDistinct(string &s, string &t){
+        int n = s.size(), m = t.size();
+        vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
+        
+        return func(0, 0, s, t, dp);
     }
 };
