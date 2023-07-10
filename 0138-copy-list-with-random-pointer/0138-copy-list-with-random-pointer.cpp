@@ -45,16 +45,10 @@ public:
           Node *copy = pseudoHead;
 
           while (iter != NULL) {
-            front = iter->next->next;
-
-            // extract the copy
-            copy->next = iter->next;
-
-            // restore the original list
-            iter->next = front;
-              
-            copy = copy -> next; 
-            iter = front;
+             copy->next = iter->next;
+             copy = copy->next;
+             iter->next = copy->next;
+             iter = iter->next;
           }
 
           return pseudoHead->next;
