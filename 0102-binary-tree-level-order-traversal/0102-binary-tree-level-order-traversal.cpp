@@ -16,26 +16,23 @@ public:
         queue <TreeNode*> que;
         
         if(!root) return ans;
+        
         que.push(root);
-        que.push(NULL);
         while(!que.empty()){
-            vector<int>a;
-            while(que.front() != NULL){
-                TreeNode* q = que.front();
+            int b = que.size();
+            vector <int> curr;
+            while(b--){
+                TreeNode* a = que.front();
                 que.pop();
-                a.push_back(q->val);
-                if(q->left != NULL){
-                    que.push(q->left);
+                if(a->left){
+                    que.push(a->left);
                 }
-                if(q->right != NULL){
-                    que.push(q->right);
+                if(a->right){
+                    que.push(a->right);
                 }
+                curr.push_back(a->val);
             }
-            que.pop();
-            que.push(NULL);
-            ans.push_back(a);
-            
-            if(que.size() == 1) break;
+            ans.push_back(curr);
         }
         
         return ans;
