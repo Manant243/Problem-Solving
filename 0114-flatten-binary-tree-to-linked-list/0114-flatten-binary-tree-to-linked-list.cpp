@@ -11,21 +11,27 @@
  */
 class Solution {
 public:
-    TreeNode* prev = NULL;
-    void func(TreeNode* curr){
-        if(curr == NULL) return;
-        if(curr->right){
-            func(curr->right);
-        }
-        if(curr->left){
-            func(curr->left);
-        }
-        curr->right = prev;
-        curr->left = NULL;
-        prev = curr;
-    }
     
     void flatten(TreeNode* root) {
-        func(root);    
+        if(!root) return;
+        stack <TreeNode*> st;
+        st.push(root);
+        
+        while(!st.empty()){
+            TreeNode* curr = st.top();
+            st.pop();
+            
+            if(curr->right){
+                st.push(curr->right);
+            }
+            if(curr->left){
+                st.push(curr->left);
+            }
+            
+            if(!st.empty()){
+                curr->right = st.top();
+            }
+            curr->left = NULL;
+        }
     }
 };
