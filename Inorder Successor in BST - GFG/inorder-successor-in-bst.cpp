@@ -117,6 +117,12 @@ class Solution{
         while(curr){
             if(curr->data > x->data){
                 ans = curr;
+                // if(curr->left == x){
+                //     break;
+                // }
+                // else{
+                //     curr = curr->left;
+                // }
                 curr = curr->left;
             }
             else{
