@@ -1,35 +1,31 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    map <int, bool> visited;
     
-    void func(int cnt, vector <int> current, vector <int>& nums){
-        if(cnt == nums.size()){
-            ans.push_back(current); return;
-        }
+    map <int,bool> present;
+    vector<vector<int>> permutations;
+    
+    void func(int count, int n, vector<int>& current, vector<int>& nums){
+        if(count == nums.size()){
+            cout << count << " ";
+            permutations.push_back(current); 
+            return;
+        };
         
-        for(int i = 0; i < nums.size(); i++){
-            if(!visited[nums[i]]){
+        for(int i = 0; i < n; i++){
+            if(!present[nums[i]]){
+                present[nums[i]] = true;
                 current.push_back(nums[i]);
-                visited[nums[i]] = true;
-                func(cnt+1, current, nums);
-                visited[nums[i]] = false;
+                func(count+1, n, current, nums);
+                present[nums[i]] = false;
                 current.pop_back();
             }
         }
     }
     
     vector<vector<int>> permute(vector<int>& nums) {
+        int n = nums.size();
         vector <int> current;
-    
-        for(int i = 0; i < nums.size(); i++){
-            current.push_back(nums[i]);
-            visited[nums[i]] = true;
-            func(1, current, nums);
-            current.pop_back();
-            visited[nums[i]] = false;
-        }
-        
-        return ans;
+        func(0, n, current, nums);
+        return permutations;
     }
 };
