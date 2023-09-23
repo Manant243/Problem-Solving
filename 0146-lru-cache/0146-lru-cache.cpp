@@ -26,8 +26,8 @@ public:
     
     void addNode(Node* newNode){
         newNode->next = head->next;
-        newNode->prev = head;
         head->next = newNode;
+        newNode->prev = head;
         newNode->next->prev = newNode;
     }
     
@@ -38,29 +38,30 @@ public:
     
     unordered_map <int, Node*> m; 
     int get(int key) {
-        if(m.find(key) != m.end()){
-            Node* cur = m[key];
-            int res = cur->val;
-            m.erase(key);
-            deleteNode(cur);
-            addNode(cur);
-            m[key] = head->next;
-            return res;
+        if(m.find(key) == m.end()){
+            return -1;
         }
-        return -1;
+        Node* current = m[key];
+        deleteNode(current);
+        addNode(current);
+        return m[key]->val;
     }
     
     void put(int key, int value) {
+        Node* current = new Node(key, value);
         if(m.find(key) != m.end()){
-            Node* existing = m[key];
+            Node* curr = m[key];
+            deleteNode(curr);
             m.erase(key);
-            deleteNode(existing);
         }
-        if(m.size() == cap){
+        if(m.size() < cap){
+            addNode(current);
+        }
+        else{
             m.erase(tail->prev->key);
             deleteNode(tail->prev);
+            addNode(current);
         }
-        addNode(new Node(key, value));
         m[key] = head->next;
     }
 };
